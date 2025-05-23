@@ -40,6 +40,28 @@ void MainWindow::on_pushButton_calc_clicked()
 
         // Виведення результату у мітку l_result
         ui->l_result->setText(QString::number(L));
+
+        ui->progressBar->setValue(d); // надсилаємо d до progress bar
+
+        model = new QStandardItemModel(this); // створення нової моделі
+        model->setColumnCount(1);             // одна колонка
+        model->setRowCount(2);                // два рядки
+        model->setHeaderData(0, Qt::Horizontal, "Результати");
+
+        // перший рядок: діаметр
+        QString dStr = QString("Діаметр кола: %1").arg(d);
+        QStandardItem *itemD = new QStandardItem(dStr);
+        model->setItem(0, 0, itemD);
+
+        // другий рядок: довжина
+        QString lStr = QString("Довжина кола: %1").arg(L);
+        QStandardItem *itemL = new QStandardItem(lStr);
+        model->setItem(1, 0, itemL);
+
+        // прив’язка моделі до таблиці
+        ui->tableView->setModel(model);
+
+
     }
     else {
         // Повідомлення про помилку у введенні
@@ -52,6 +74,7 @@ void MainWindow::on_pushButton_calc_clicked()
         // Повернути фокус на поле введення
         ui->le_d->setFocus();
     }
+
 }
 
 // Слот для завантаження даних з файлу
